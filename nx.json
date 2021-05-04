@@ -19,7 +19,7 @@
     }
   },
   "projects": {
-    "blocks": {
+    "api": {
       "tags": []
     }
   }

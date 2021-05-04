@@ -3,21 +3,21 @@
   "cli": {
     "defaultCollection": "@nrwl/nest"
   },
-  "defaultProject": "blocks",
+  "defaultProject": "api",
   "projects": {
-    "blocks": {
-      "root": "apps/blocks",
-      "sourceRoot": "apps/blocks/src",
+    "api": {
+      "root": "apps/api",
+      "sourceRoot": "apps/api/src",
       "projectType": "application",
       "targets": {
         "build": {
           "executor": "@nrwl/node:build",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/blocks",
-            "main": "apps/blocks/src/main.ts",
-            "tsConfig": "apps/blocks/tsconfig.app.json",
-            "assets": ["apps/blocks/src/assets"]
+            "outputPath": "dist/apps/api",
+            "main": "apps/api/src/main.ts",
+            "tsConfig": "apps/api/tsconfig.app.json",
+            "assets": ["apps/api/src/assets"]
           },
           "configurations": {
             "production": {
@@ -26,8 +26,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/blocks/src/environments/environment.ts",
-                  "with": "apps/blocks/src/environments/environment.prod.ts"
+                  "replace": "apps/api/src/environments/environment.ts",
+                  "with": "apps/api/src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -36,20 +36,20 @@
         "serve": {
           "executor": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "blocks:build"
+            "buildTarget": "api:build"
           }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/blocks/**/*.ts"]
+            "lintFilePatterns": ["apps/api/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/blocks"],
+          "outputs": ["coverage/apps/api"],
           "options": {
-            "jestConfig": "apps/blocks/jest.config.js",
+            "jestConfig": "apps/api/jest.config.js",
             "passWithNoTests": true
           }
         }
