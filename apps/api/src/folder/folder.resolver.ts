@@ -1,7 +1,9 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 import { GraphQLID, GraphQLString } from 'graphql';
 import { Folder } from './entities';
 import { FolderService } from './folder.service';
+import { AuthGuard } from '../user/auth.guard';
 
 @Resolver(() => Folder)
 export class FolderResolver {
@@ -30,6 +32,7 @@ export class FolderResolver {
   // }
 
   @Query(() => [Folder])
+  @UseGuards(new AuthGuard())
   async folders(): Promise<Folder[]> {
     return await this.folderService.find();
   }

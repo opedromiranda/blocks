@@ -11,6 +11,7 @@ import { FolderModule } from '../folder/folder.module';
 import { FileModule } from '../file/file.module';
 import { Storage } from '../storage/abstract/storage';
 import { LocalStorageService } from '../storage/local-storage/local-storage.service';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
@@ -33,9 +34,11 @@ import { LocalStorageService } from '../storage/local-storage/local-storage.serv
     GraphQLModule.forRoot({
       autoSchemaFile: join(__dirname, 'schema.gql'),
       sortSchema: true,
+      context: ({ req }) => ({ headers: req.headers }),
     }),
     FolderModule,
     FileModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [

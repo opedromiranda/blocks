@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Folder } from './entities';
-import { CreateFolderDto } from './dto/create-folder.dto';
+import { CreateFolderDto } from './dto';
 
 @Injectable()
 export class FolderService {

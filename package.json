@@ -41,6 +41,7 @@
     "graphql": "^15.5.0",
     "graphql-tools": "^7.0.4",
     "graphql-upload": "^11.0.0",
+    "jsonwebtoken": "^8.5.1",
     "pg": "^8.6.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
