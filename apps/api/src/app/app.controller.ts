@@ -20,7 +20,7 @@ export class AppController {
 
   @Get(':uuid')
   async getFile(@Param('uuid') uuid: string, @Res() res: Response) {
-    const file = await this.fileService.findOne({ uuid });
+    const file = await this.fileService.findOne(uuid);
     if (!file) {
       throw new NotFoundException();
     }
