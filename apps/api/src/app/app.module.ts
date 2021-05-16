@@ -9,6 +9,8 @@ import { AppService } from './app.service';
 import appConfig from './config/app.config';
 import { FolderModule } from '../folder/folder.module';
 import { FileModule } from '../file/file.module';
+import { Storage } from '../storage/abstract/storage';
+import { LocalStorageService } from '../storage/local-storage/local-storage.service';
 
 @Module({
   imports: [
@@ -25,7 +27,7 @@ import { FileModule } from '../file/file.module';
         database: process.env.DATABASE_NAME,
         autoLoadEntities: true,
         synchronize: true, // disable for production
-        dropSchema: true,
+        // dropSchema: true,
       }),
     }),
     GraphQLModule.forRoot({
@@ -36,6 +38,14 @@ import { FileModule } from '../file/file.module';
     FileModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: Storage,
+      useFactory: () => {
+        return new LocalStorageService(process.env.STORAGE_ROOT);
+      },
+    },
+  ],
 })
 export class AppModule {}

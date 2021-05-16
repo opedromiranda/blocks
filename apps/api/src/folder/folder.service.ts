@@ -29,10 +29,10 @@ export class FolderService {
   }
 
   async find() {
-    return await this.folderRepository.find();
+    return await this.folderRepository.find({ relations: ['files'] });
   }
 
   async findOne(id: string) {
-    return await this.folderRepository.findOne(id);
+    return await this.folderRepository.findOne(id, { relations: ['files'] });
   }
 }

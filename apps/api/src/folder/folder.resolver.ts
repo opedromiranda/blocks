@@ -1,14 +1,6 @@
-import {
-  Args,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GraphQLID, GraphQLString } from 'graphql';
 import { Folder } from './entities';
-import { File } from '../file/entities';
 import { FolderService } from './folder.service';
 
 @Resolver(() => Folder)

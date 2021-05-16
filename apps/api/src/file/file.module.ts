@@ -21,5 +21,6 @@ import { File } from './entities';
       },
     },
   ],
+  exports: [FileService],
 })
 export class FileModule {}

@@ -1,25 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { createWriteStream, ReadStream } from 'fs';
+import { createWriteStream, ReadStream, promises, createReadStream } from 'fs';
 import { Storage } from '../abstract/storage';
 import { join } from 'path';
+import { File } from '../../file/entities';
+
+const { mkdir } = promises;
 
 @Injectable()
 export class LocalStorageService implements Storage {
   constructor(public readonly rootFolder: string) {}
 
-  async write(filename: string, createReadStream: () => ReadStream) {
-    console.log(`here at write ${filename}, ${this.rootFolder}`);
+  private getFileFolder(file: File) {
+    return join(this.rootFolder, file.uuid);
+  }
+
+  private getFilePath(file: File) {
+    return join(this.getFileFolder(file), file.name);
+  }
+
+  async write(file: File, createReadStream: () => ReadStream) {
+    const fileFolder = this.getFileFolder(file);
+    await mkdir(fileFolder);
+
     return new Promise((resolve, reject) => {
-      console.log(join(this.rootFolder, filename));
       createReadStream()
-        .pipe(createWriteStream(join(this.rootFolder, filename)))
+        .pipe(createWriteStream(this.getFilePath(file)))
         .on('finish', resolve)
         .on('error', reject);
     });
   }
 
-  read(name: string) {
-    console.log('here at read');
-    return Buffer.from('0');
+  async read(file: File) {
+    return createReadStream(this.getFilePath(file));
   }
 }

@@ -2,16 +2,15 @@ import { Field, ID, ObjectType } from '@nestjs/graphql';
 import {
   Column,
   Entity,
-  JoinTable,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { File } from '../../file/entities';
-
+import { Folder as IFolder } from '@blocks/data';
 @Entity()
 @ObjectType()
-export class Folder {
+export class Folder implements IFolder {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
   uuid: string;
@@ -19,13 +18,6 @@ export class Folder {
   @Field()
   @Column()
   name: string;
-
-  // @Field()
-  // @Column({ default: false })
-  // isRoot: boolean;
-
-  // @Field()
-  // parent: Folder;
 
   @Field(() => [File], { defaultValue: [] })
   @OneToMany(() => File, (file) => file.folder)

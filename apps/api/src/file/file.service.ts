@@ -1,7 +1,7 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ReadStream } from 'node:fs';
-import { Repository } from 'typeorm';
+import { ObjectID, Repository } from 'typeorm';
 import { FolderService } from '../folder/folder.service';
 import { Storage } from '../storage/abstract/storage';
 import { File } from './entities';
@@ -20,6 +20,10 @@ export class FileService {
     return await this.fileRepository.find({ relations: ['folder'] });
   }
 
+  async findOne(id: string | number | Date | ObjectID) {
+    return await this.fileRepository.findOne(id);
+  }
+
   async save(
     filename: string,
     createReadStream: () => ReadStream,
@@ -32,13 +36,15 @@ export class FileService {
         throw new NotFoundException(`Folder ${folderUUID} not found.`);
       }
     }
-    await this.storageService.write(filename, createReadStream);
 
     console.log({ folder });
-    const file = this.fileRepository.create({
+    let file = this.fileRepository.create({
       name: filename,
       folder,
     });
-    return await this.fileRepository.save(file);
+    file = await this.fileRepository.save(file);
+
+    await this.storageService.write(file, createReadStream);
+    return file;
   }
 }
